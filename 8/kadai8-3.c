@@ -19,11 +19,17 @@ int main(void) {
   Record records[100];
   int size = 0;
   char str[255];
+  int flag;
   while (fgets(str, sizeof(str), fp) != NULL) {
     char *p = strchr(str, (int)'\n');
     if (p != NULL)
     *p = '\0';
     // printf("%s\n", str);
+    // 1行目はスキップする
+    if (!flag) {
+      flag = !flag;
+      continue;
+    }
 
     char *token;
     token = strtok(str, ",");
@@ -43,7 +49,7 @@ int main(void) {
   char tmp2[255];
   int i,j;
 
-  for (i = 1; i < size; i++) {
+  for (i = 0; i < size; i++) {
     for (j = i; j < size; j++) {
       if ( records[i].total < records[j].total) {
         tmp = records[i].total;
@@ -56,7 +62,7 @@ int main(void) {
     }
   }
 
-  for (i = 1; i < size; i++)
+  for (i = 0; i < size; i++)
   {
     printf("%s %.2lf\n", records[i].name, records[i].total);
   }
